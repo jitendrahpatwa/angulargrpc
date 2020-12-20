@@ -5,6 +5,8 @@
 export const environment = {
   apiProxy: 'http://localhost:8080',
   apiRest: 'http://localhost:3001',
+  expressProto: 'http://localhost:30043',
+  expressRest: 'http://127.0.0.1:3000',
   production: false
 };
 

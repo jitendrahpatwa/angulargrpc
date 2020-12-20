@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "angular-grpc"
+    }
+  },
+  "defaultProject": "angular-grpc",
+  "cli": {
+    "analytics": "1b26ba63-a2ac-422e-b218-632183eba4fa"
+  }
 }

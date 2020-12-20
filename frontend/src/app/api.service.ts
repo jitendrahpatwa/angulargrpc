@@ -6,18 +6,52 @@ import { HeroServiceClient, Status } from './proto/hero/hero_pb_service';
 import { HeroById, Hero, HeroList } from './proto/hero/hero_pb';
 import { environment } from '../environments/environment';
 
+// new
+import { CustomerService, CustomerServiceClient, ServiceError } from './proto/customer/src/assets/proto/customers_pb_service';
+import { Empty, Customer, CustomerList, CustomerRequestId} from './proto/customer/src/assets/proto/customers_pb';
+
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
   client: HeroServiceClient;
 
+  newClient: CustomerServiceClient;
+
   constructor(
     private http: HttpClient
   ) {
     this.client = new HeroServiceClient(environment.apiProxy);
+    this.newClient = new CustomerServiceClient(environment.expressProto);
   }
 
+  // new customer services
+  getCustomers(path, val): Promise <object> {
+    return new Promise((resolve, reject) => {
+      console.log('ApiService.Custlist', path, val);
+      const req = new CustomerRequestId();
+      req.setId('a68b823c-7ca6-44bc-b721-fb4d5312cafc');
+      // req.toObject();
+      this.newClient.get(req, null, (err, response: Customer) => {
+        // this.newClient.getAll(path, null, (err, response: CustomerList) => {
+        // console.log('ApiService.Custlist.response', response);
+        console.log('ApiService.Custlist.response', response.toObject());
+        if (err) {
+          return reject(err);
+        }
+        // resolve(response);
+        resolve(response.toObject());
+      });
+    });
+  }
+
+  getCustomersRest(path, val): Observable<any> {
+    return this.http.get(`${environment.expressRest}/${path}`);
+  }
+
+
+
+  // old hero services
   get(path, val): Promise <object> {
     return new Promise((resolve, reject) => {
       console.log('ApiService.get', path, val);
